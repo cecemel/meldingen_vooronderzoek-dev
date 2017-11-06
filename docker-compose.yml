@@ -1,0 +1,49 @@
+version: "2"
+services:
+  smtp:
+    image: namshi/smtp
+    ports:
+      - "25:25"
+  urireferencer:
+    image: meldingen_vooronderzoek-dev/uriregistry:latest
+    ports:
+      - "6542:6543"
+  elastic:
+    image: geosolutions/elasticsearch-plugins
+    ports:
+      - "9200:9200"
+    volumes:
+      - ./data/elastic:/usr/share/elasticsearch/data
+  postgres:
+    image: meldingen_vooronderzoek-dev/postgres:latest
+    environment:
+      - "POSTGRES_PASSWORD=postgres"
+      - "POSTGRES_USER=postgres"
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+  storageprovider:
+    image: meldingen_vooronderzoek-dev/storageprovider:latest
+    ports:
+      - "6544:6544"
+    volumes:
+      - ./data/storageprovider:/meldingen_vooronderzoek_store
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+  meldingen_vooronderzoek:
+    image: meldingen_vooronderzoek-dev/meldingen_vooronderzoek:latest
+    volumes:
+      - ./meldingen_vooronderzoek/meldingen_vooronderzoek:/app/meldingen_vooronderzoek
+      - ./meldingen_vooronderzoek/alembic:/app/alembic
+      - ./meldingen_vooronderzoek/tests:/app/tests
+      - ./meldingen_vooronderzoek/docs:/app/docs
+      - ./meldingen_vooronderzoek/alembic.ini:/app/alembic.ini
+      - ./meldingen_vooronderzoek/development-private.ini:/app/development-private.ini
+    ports:
+     - "6543:6543"
+  rqworker:
+    image: meldingen_vooronderzoek-dev/meldingen_vooronderzoek:latest
+    command: rqworker -u "http://redis:6379" meldingen_vooronderzoek_es_indexer

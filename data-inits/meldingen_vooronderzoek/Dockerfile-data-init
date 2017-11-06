@@ -1,0 +1,5 @@
+FROM meldingen_vooronderzoek-dev/meldingen_vooronderzoek:latest
+
+WORKDIR "/app"
+
+CMD ["sh", "-c","initialize_meldingen_vooronderzoek_db development.ini#meldingen_vooronderzoek; archive_feed development.ini#meldingen_vooronderzoek; initialize_meldingen_vooronderzoek_es development.ini#meldingen_vooronderzoek;"]

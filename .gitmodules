@@ -1,0 +1,12 @@
+[submodule "meldingen_vooronderzoek"]
+	path = meldingen_vooronderzoek
+	url = https://github.com/OnroerendErfgoed/meldingen_vooronderzoek.git
+[submodule "storageprovider"]
+	path = storageprovider
+	url = https://github.com/OnroerendErfgoed/storageprovider.git
+[submodule "documentgenerator"]
+	path = documentgenerator
+	url = https://github.com/OnroerendErfgoed/documentgenerator.git
+[submodule "uriregistry"]
+	path = uriregistry
+	url = https://github.com/OnroerendErfgoed/uriregistry.git
